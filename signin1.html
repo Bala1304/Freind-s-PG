@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin Page - Friend's PG</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Owner Sign In Form -->
+        <form id="ownerSignInForm" onsubmit="return authenticateOwner()">
+            <div class="form-group">
+                <label for="ownerSignInUsername">Username</label>
+                <input type="text" class="form-control" id="ownerSignInUsername" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="ownerSignInPassword">Password</label>
+                <input type="password" class="form-control" id="ownerSignInPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+
+        <!-- Bootstrap JS dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            function authenticateOwner() {
+                // Get user input
+                var ownerSignInUsername = document.getElementById('ownerSignInUsername').value;
+                var ownerSignInPassword = document.getElementById('ownerSignInPassword').value;
+
+                // Check default credentials
+                if (ownerSignInUsername === 'Bala1304' && ownerSignInPassword === '8985') {
+                    // Redirect to owner.html upon successful login
+                    window.location.href = 'owner.html';
+                } else {
+                    // Display an error message for unsuccessful sign-in
+                    alert('Invalid username or password. Please try again.');
+                }
+
+                // Clear the sign-in form
+                document.getElementById('ownerSignInForm').reset();
+
+                // Prevent form submission
+                return false;
+            }
+        </script>
+    </div>
+</body>
+</html>

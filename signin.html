@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend's PG</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signInModal">
+            Sign In
+        </button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#signUpModal">
+            Sign Up
+        </button>
+
+        <!-- Sign In Modal -->
+        <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Sign In Form -->
+                        <form id="signInForm" onsubmit="return authenticateUser()">
+                            <div class="form-group">
+                                <label for="signInEmail">Email address</label>
+                                <input type="email" class="form-control" id="signInEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signInPassword">Password</label>
+                                <input type="password" class="form-control" id="signInPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Sign Up Form -->
+                        <form id="signUpForm">
+                            <div class="form-group">
+                                <label for="signUpName">Full Name</label>
+                                <input type="text" class="form-control" id="signUpName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signUpEmail">Email address</label>
+                                <input type="email" class="form-control" id="signUpEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signUpContact">Contact Number</label>
+                                <input type="tel" class="form-control" id="signUpContact" placeholder="Enter contact number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signUpRoom">Room Number</label>
+                                <input type="text" class="form-control" id="signUpRoom" placeholder="Enter your room number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signUpPassword">Password</label>
+                                <input type="password" class="form-control" id="signUpPassword" placeholder="Enter password" required>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="saveUserData()">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            function saveUserData() {
+                // Get user input for sign up
+                var fullName = document.getElementById('signUpName').value;
+                var email = document.getElementById('signUpEmail').value;
+                var contactNumber = document.getElementById('signUpContact').value;
+                var roomNumber = document.getElementById('signUpRoom').value;
+                var password = document.getElementById('signUpPassword').value;
+
+                // Create user object
+                var user = {
+                    fullName: fullName,
+                    email: email,
+                    contactNumber: contactNumber,
+                    roomNumber: roomNumber,
+                    password: password
+                };
+
+                // Check if local storage is supported
+                if (typeof(Storage) !== 'undefined') {
+                    // Retrieve existing user data or initialize an empty array
+                    var users = JSON.parse(localStorage.getItem('users')) || [];
+
+                    // Add new user to the array
+                    users.push(user);
+
+                    // Save the updated array back to local storage
+                    localStorage.setItem('users', JSON.stringify(users));
+
+                    // Optionally, you can display a success message or redirect the user
+                    alert('Sign up successful!');
+
+                    // Clear the form
+                    document.getElementById('signUpForm').reset();
+
+                    // Close the sign-up modal
+                    $('#signUpModal').modal('hide');
+                } else {
+                    // Local storage is not supported
+                    alert('Sorry, your browser does not support local storage. Please try a different browser.');
+                }
+            }
+
+            function authenticateUser() {
+                // Get user input for sign in
+                var signInEmail = document.getElementById('signInEmail').value;
+                var signInPassword = document.getElementById('signInPassword').value;
+
+                // Retrieve users from local storage
+                var users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Find the user with matching email and password
+                var authenticatedUser = users.find(function (user) {
+                    return user.email === signInEmail && user.password === signInPassword;
+                });
+
+                if (authenticatedUser) {
+    // Redirect to resident.html using a relative path
+    window.location.href = 'resident.html';
+} else {
+    // Display an error message for unsuccessful sign-in
+    alert('Invalid email or password. Please try again.');
+}
+
+                // Clear the sign-in form
+                document.getElementById('signInForm').reset();
+
+                // Close the sign-in modal
+                $('#signInModal').modal('hide');
+
+                // Prevent form submission
+                return false;
+            }
+        </script>
+    </div>
+</body>
+</html>

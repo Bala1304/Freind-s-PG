@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Page - Friend's PG</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+        }
+
+        .meals {
+            background-color: #000000; /* Sky Blue */
+        }
+
+        .editable {
+            cursor: text;
+        }
+        .day{
+            background-color: black;
+            cursor: default;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+        }
+        /* Add these styles to the existing CSS in the head of your HTML file */
+
+#importantNews {
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+    padding: 10px;
+    resize: none;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+/* Adjust the styles as needed based on your design preferences */
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Wi-Fi Password -->
+        <h3>Wi-Fi Password</h3>
+        <p id="wifiPassword">Your current Wi-Fi password is: <span id="password">SecretPassword123</span></p>
+        
+        <!-- Button Group -->
+        <div class="btn-group">
+            <button class="btn btn-primary" style="height: 40px; position: relative; left: 0;" onclick="changeWifiPassword()">Change Wi-Fi Password</button>
+            <button class="btn btn-primary save-btn" style="height: 40px; position: relative; left: 10px;" onclick="saveChanges()">Save Changes</button>
+        </div>
+        
+        <!-- Food Timetable Table -->
+        <h3>Food Timetable</h3>
+        <table>
+            <thead>
+                <tr class="meals">
+                    <th></th>
+                    <th>Breakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="day">Sun</td>
+                    <td class="editable" id="sunBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="sunLunch" contenteditable="true"></td>
+                    <td class="editable" id="sunDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Mon</td>
+                    <td class="editable" id="monBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="monLunch" contenteditable="true"></td>
+                    <td class="editable" id="monDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Tue</td>
+                    <td class="editable" id="tueBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="tueLunch" contenteditable="true"></td>
+                    <td class="editable" id="tueDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Wed</td>
+                    <td class="editable" id="wedBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="wedLunch" contenteditable="true"></td>
+                    <td class="editable" id="wedDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Thu</td>
+                    <td class="editable" id="thuBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="thuLunch" contenteditable="true"></td>
+                    <td class="editable" id="thuDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Fri</td>
+                    <td class="editable" id="friBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="friLunch" contenteditable="true"></td>
+                    <td class="editable" id="friDinner" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="day">Sat</td>
+                    <td class="editable" id="satBreakfast" contenteditable="true"></td>
+                    <td class="editable" id="satLunch" contenteditable="true"></td>
+                    <td class="editable" id="satDinner" contenteditable="true"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Important News -->
+        <h3>Important News</h3>
+        <textarea id="importantNews" placeholder="Type important news here..."></textarea>
+        <button class="btn btn-primary save-btn" onclick="saveImportantNews()">Save Important News</button>
+
+        <!-- Bootstrap JS dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            // Load saved data from local storage on page load
+            document.addEventListener('DOMContentLoaded', function () {
+                loadSavedData();
+                loadWifiPassword();
+                loadImportantNews();
+            });
+
+            function saveChanges() {
+                // Save data to local storage
+                saveData('sunBreakfast', 'sunLunch', 'sunDinner');
+                saveData('monBreakfast', 'monLunch', 'monDinner');
+                saveData('tueBreakfast', 'tueLunch', 'tueDinner');
+                saveData('wedBreakfast', 'wedLunch', 'wedDinner');
+                saveData('thuBreakfast', 'thuLunch', 'thuDinner');
+                saveData('friBreakfast', 'friLunch', 'friDinner');
+                saveData('satBreakfast', 'satLunch', 'satDinner');
+
+                alert('Changes saved successfully!');
+            }
+
+            function changeWifiPassword() {
+                var newPassword = prompt('Enter new Wi-Fi password:');
+                if (newPassword !== null) {
+                    // Update displayed password
+                    document.getElementById('password').innerText = newPassword;
+
+                    // Save new password to local storage
+                    localStorage.setItem('wifiPassword', newPassword);
+
+                    alert('Wi-Fi password changed successfully!');
+                }
+            }
+
+            function saveData(breakfastId, lunchId, dinnerId) {
+                localStorage.setItem(breakfastId, document.getElementById(breakfastId).innerText);
+                localStorage.setItem(lunchId, document.getElementById(lunchId).innerText);
+                localStorage.setItem(dinnerId, document.getElementById(dinnerId).innerText);
+            }
+
+            function loadSavedData() {
+                loadData('sunBreakfast', 'sunLunch', 'sunDinner');
+                loadData('monBreakfast', 'monLunch', 'monDinner');
+                loadData('tueBreakfast', 'tueLunch', 'tueDinner');
+                loadData('wedBreakfast', 'wedLunch', 'wedDinner');
+                loadData('thuBreakfast', 'thuLunch', 'thuDinner');
+                loadData('friBreakfast', 'friLunch', 'friDinner');
+                loadData('satBreakfast', 'satLunch', 'satDinner');
+            }
+
+            function loadData(breakfastId, lunchId, dinnerId) {
+                document.getElementById(breakfastId).innerText = localStorage.getItem(breakfastId) || '';
+                document.getElementById(lunchId).innerText = localStorage.getItem(lunchId) || '';
+                document.getElementById(dinnerId).innerText = localStorage.getItem(dinnerId) || '';
+            }
+
+            function loadWifiPassword() {
+                var savedWifiPassword = localStorage.getItem('wifiPassword');
+                document.getElementById('password').innerText = savedWifiPassword || 'SecretPassword123';
+            }
+
+            function saveImportantNews() {
+                var importantNews = document.getElementById('importantNews').value;
+                localStorage.setItem('importantNews', importantNews);
+                alert('Important news saved successfully!');
+            }
+
+            function loadImportantNews() {
+                var importantNews = localStorage.getItem('importantNews') || '';
+                document.getElementById('importantNews').value = importantNews;
+            }
+        </script>
+    </div>
+</body>
+</html>

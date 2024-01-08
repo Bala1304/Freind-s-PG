@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Page - Friend's PG</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Friend's PG, <span id="residentName"></span>!</h1>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <!-- Display Resident Details Here -->
+                <p>Full Name: <span id="residentFullName"></span></p>
+                <p>Contact Number: <span id="residentContactNumber"></span></p>
+                <p>Room Number: <span id="residentRoomNumber"></span></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <!-- Display PG Information Here -->
+                <h2>PG Information</h2>
+                <p>Food Time Table: Monday to Friday, Breakfast at 8:00 AM, Lunch at 12:30 PM, Dinner at 7:00 PM.</p>
+                <p>Contact Details: Call us at <span id="pgContactNumber">123-456-7890</span> or email us at <span id="pgEmail">pg@example.com</span>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to Retrieve User Data from Local Storage and Display on Page -->
+    <script>
+        // Retrieve user data from local storage
+        var userData = JSON.parse(localStorage.getItem('users')) || [];
+        // Assuming the last user in the array is the current resident
+        var resident = userData[userData.length - 1];
+
+        // Display resident details on the page
+        document.getElementById('residentName').innerText = resident.fullName;
+        document.getElementById('residentFullName').innerText = resident.fullName;
+        document.getElementById('residentContactNumber').innerText = resident.contactNumber;
+        document.getElementById('residentRoomNumber').innerText = resident.roomNumber;
+
+        // Display PG information on the page
+        document.getElementById('pgContactNumber').innerText = '123-456-7890'; // Replace with actual PG contact number
+        document.getElementById('pgEmail').innerText = 'pg@example.com'; // Replace with actual PG email
+    </script>
+</body>
+</html>
